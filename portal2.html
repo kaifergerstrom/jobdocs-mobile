@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" class="uk-height-1-1">
+	<head>
+		<title>Title</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.6.10/dist/css/uikit.min.css" />
+		<script src="https://cdn.jsdelivr.net/npm/uikit@3.6.10/dist/js/uikit.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/uikit@3.6.10/dist/js/uikit-icons.min.js"></script>
+        <link rel="stylesheet" href="portal2.css" />
+
+        <style>
+
+            .order-navbar {
+                border: 1px solid red;
+            }
+
+            #mapid { height: 30%; }
+        </style>
+
+    </head>
+    
+	<body class="uk-height-1-1">
+        
+        <div class="uk-padding uk-text-center" >
+            <div class="uk-text-large uk-text-bold uk-text-emphasis uk-display-block">Work Order <span class="uk-text-normal uk-text-muted">#3453</span></div>
+            <div class="uk-display-block uk-text-small uk-text-muted"><span uk-icon="icon: location"></span> 13582 Cedar Run Lane Herndon, VA</div>
+        </div>
+
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+   integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+   crossorigin=""/>
+
+
+   <div id="mapid"></div>
+
+
+
+   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+   crossorigin=""></script>
+
+   <script>
+var mymap = L.map('mapid').setView([51.505, -0.09], 13);
+var marker = L.marker([51.5, -0.09]).addTo(mymap);
+
+L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+    maxZoom: 18,
+    id: 'mapbox/streets-v11',
+    tileSize: 512,
+    zoomOffset: -1,
+    accessToken: 'pk.eyJ1Ijoia2FpZmVyIiwiYSI6ImNrY3k2cG9vNzA2dnMyenRpM3k4dDZxY28ifQ.hDMXt1Hv49HfbLrwPfqUFw'
+}).addTo(mymap);
+
+   </script>
+
+    <dl class="uk-description-list uk-description-list-divider uk-padding uk-margin-remove">
+        <div>
+            <dt class="uk-text-bold">Description term</dt>
+        <dd>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</dd>
+        </div>
+        
+        <dt>Description term</dt>
+        <dd>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</dd>
+        <dt>Description term</dt>
+        <dd>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</dd>
+    </dl>
+
+
+
+    </body>
+
+</html>

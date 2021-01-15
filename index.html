@@ -10,39 +10,45 @@
 		<link rel="stylesheet" href="index.css" />
 	</head>
 	<body class="uk-height-1-1">
-		<nav class="uk-navbar-container uk-navbar-transparent" uk-navbar>
-			<div class="uk-navbar-center">
-				<ul class="uk-navbar-nav">
-					<li class="uk-active"><a href="#">Home</a></li>
-					<li><a href="#">Support</a></li>
-					<li><a href="#">Contact</a></li>
-				</ul>
-			</div>
-		</nav>
+		<nav class="uk-navbar uk-navbar-container uk-margin">
+            <div class="uk-navbar-left">
+                <a class="uk-navbar-toggle" href="#" uk-toggle="target: #menu-offcanvas">
+                    <span uk-navbar-toggle-icon></span> <span class="uk-margin-small-left">Menu</span>
+                </a>
+            </div>
+        </nav>
 		<div>
-			<div class="uk-position-center">
+			<div class="uk-position-center uk-position-z-index">
 				<div>
 					<h1 class="uk-text-bold">JobDocs <span class="uk-text-light secondary-color">Mobile</span></h1>
-					<p class="uk-text-meta">Built for Contractor by Contractors.</p>
+					<p class="uk-text-muted">Built for Contractor by Contractors.</p>
 				</div>
 				<div class="uk-margin">
-					<input class="uk-input" type="text" placeholder="Enter Work Order ID">
+					<input class="gradient-input uk-input uk-form-large" type="text" placeholder="Enter Work Order ID">
+                </div>
+                <div class="uk-margin">
+					<button class="uk-button uk-button-default uk-width-1-1 uk-button-large">Start Forms</button>
 				</div>
 			</div>
 			<div class="footer uk-position-bottom">
-				<ul class="circles">
-					<li></li>
-					<li></li>
-					<li></li>
-					<li></li>
-					<li></li>
-					<li></li>
-					<li></li>
-					<li></li>
-					<li></li>
-					<li></li>
-				</ul>
+				<div id="stars"></div>
+                <div id="stars2"></div>
+                <div id="stars3"></div>
 			</div>
-		</div>
+        </div>
+        
+        
+        <div id="menu-offcanvas" uk-offcanvas="mode: push; overlay: true">
+            <div class="uk-offcanvas-bar">
+        
+                <button class="uk-offcanvas-close" type="button" uk-close></button>
+        
+                <h3>Title</h3>
+        
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+        
+            </div>
+        </div>
+
 	</body>
 </html>
