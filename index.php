@@ -1,3 +1,11 @@
+<?php
+
+if (isset($_POST['wid-btn'])) {
+    header("Location: portal.php?wid=".$_POST['wid']);
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en" class="uk-height-1-1">
 	<head>
@@ -7,7 +15,7 @@
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.6.10/dist/css/uikit.min.css" />
 		<script src="https://cdn.jsdelivr.net/npm/uikit@3.6.10/dist/js/uikit.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/uikit@3.6.10/dist/js/uikit-icons.min.js"></script>
-		<link rel="stylesheet" href="index.css" />
+		<link rel="stylesheet" href="css/index.css" />
 	</head>
 	<body class="uk-height-1-1">
 		<nav class="uk-navbar uk-navbar-container uk-margin">
@@ -22,13 +30,16 @@
 				<div>
 					<h1 class="uk-text-bold">JobDocs <span class="uk-text-light secondary-color">Mobile</span></h1>
 					<p class="uk-text-muted">Built for Contractor by Contractors.</p>
-				</div>
-				<div class="uk-margin">
-					<input class="gradient-input uk-input uk-form-large" type="text" placeholder="Enter Work Order ID">
                 </div>
-                <div class="uk-margin">
-					<a href="portal.html?wid=54845"><button class="uk-button uk-button-default uk-width-1-1 uk-button-large">Start Forms</button></a>
-				</div>
+                
+                <form action="index.php" method="POST">
+                    <div class="uk-margin">
+                        <input class="gradient-input uk-input uk-form-large" type="text" placeholder="Enter Work Order ID" name="wid">
+                    </div>
+                    <div class="uk-margin">
+                        <button class="uk-button uk-button-default uk-width-1-1 uk-button-large" type="submit" name="wid-btn">Start Forms</button>
+                    </div>
+                </form>
 			</div>
 			<div class="footer uk-position-bottom">
 				<div id="stars"></div>

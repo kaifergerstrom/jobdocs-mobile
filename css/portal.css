@@ -1,5 +1,5 @@
 #workorder-map {
-	height: 35%;
+	height: 300px;
 }
 
 .soft-border {
@@ -44,3 +44,17 @@
 	width: 30px;
 	font-size: 13px;
 }
+
+.uk-tab>.uk-active>a {
+    border-width: 2px;
+    border-color: #e94057; 
+}
+.file-upload-name {
+    background: #585858;
+    padding: 0.5rem;
+    color: white;
+  }
+  
+  .alert {
+      border-left: 1px solid;
+  }
