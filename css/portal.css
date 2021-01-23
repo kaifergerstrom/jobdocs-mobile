@@ -9,11 +9,19 @@
 }
 
 .secondary-color {
-	color: #e94057;
+	color: #e94057 !important;
+}
+
+.secondary-bg {
+    background-color: #e94057 !important;
+}
+
+.success-bg {
+    background-color: #32d296 !important;
 }
 
 .gradient-bg {
-	background: #8a2387;
+	background: #e94057;
 	/* fallback for old browsers */
 	background: -webkit-linear-gradient(to right, #f27121, #e94057, #f27121);
 	/* Chrome 10-25, Safari 5.1-6 */
