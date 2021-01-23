@@ -11,15 +11,23 @@ $fid = $_GET['fid'];
 <!DOCTYPE html>
 <html lang="en" class="uk-height-1-1">
 	<head>
-		<title>Title</title>
+    <title>Title</title>
 		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <!-- UiKit -->
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.6.10/dist/css/uikit.min.css" />
 		<script src="https://cdn.jsdelivr.net/npm/uikit@3.6.10/dist/js/uikit.min.js"></script>
-		<script src="https://cdn.jsdelivr.net/npm/uikit@3.6.10/dist/js/uikit-icons.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/uikit@3.6.10/dist/js/uikit-icons.min.js"></script>
+        
+        <!-- JQuery -->
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 
-		<link rel="stylesheet" href="css/portal.css" />
-	</head>
+        <!-- Custom Stylesheets -->
+        <link rel="stylesheet" href="css/styles.css" />
+        <link rel="stylesheet" href="css/portal.css" />
+    </head>
+    
 	<body class="uk-height-1-1">
 		
         <div class="uk-padding-small gradient-bg uk-text-bold uk-text-large uk-text-center">
@@ -27,7 +35,10 @@ $fid = $_GET['fid'];
 		</div>
 
         <div class="uk-container uk-container-xlarge uk-margin-top">
+
             <div uk-grid>
+
+                <!-- Form Content Cell -->
                 <div class="uk-width-1-3@m">
 
                     <div class="uk-card uk-card-default uk-card-body">
@@ -56,8 +67,9 @@ $fid = $_GET['fid'];
                             </tbody>
                         </table>
                     </div>
-                
                 </div>
+
+                <!-- Form Body Cell -->
                 <div class="uk-width-expand@m">
                     <div class="uk-card uk-card-default uk-card-body">
                         <h2 class="uk-text-bold">WSSC Septage Manifest</h2>
