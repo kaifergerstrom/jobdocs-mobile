@@ -34,3 +34,7 @@
   .alert {
       border-left: 1px solid;
   }
+
+  .disable-link {
+    pointer-events: none;
+}

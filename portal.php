@@ -19,12 +19,6 @@ function getWorkOrder($id) {
 $address_full = $wo['StreetAddress']." ".$wo['City'].", ".$wo['State']." ".$wo['Zip'];
 
 
-if(isset($_POST["submitDropzone"])) {  
-    // Do something    
-    print_r($_POST);
-}
-
-
 ?>
 
 <!DOCTYPE html>
@@ -87,7 +81,8 @@ if(isset($_POST["submitDropzone"])) {
             
 		</ul>
 
-		<script src="js/wo-map.js"></script>
+        <script src="js/wo-map.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
         
     </body>
 </html>

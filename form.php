@@ -1,104 +1,177 @@
 <?php
-require_once 'vendor/autoload.php';  // Autoloader for classes and libraries
 
-use Classes\DB;
 
-$wid = $_GET['wid'];
-$fid = $_GET['fid'];
+$formFile = file_get_contents("json/wssc_septage_manifest.json");
+
+$formStructure = json_decode($formFile, true);
 
 ?>
 
 <!DOCTYPE html>
-<html lang="en" class="uk-height-1-1">
+<html lang="en">
 	<head>
-    <title>Title</title>
 		<meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="msapplication-tap-highlight" content="no">
+        
+        <!--NVD3-->
+		<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
+		<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/prism.min.js"></script>
+
+        <!-- Materialize -->
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
+		<link rel="stylesheet" href="https://www.samclarke.com/assets/migrating-to-hugo/monokai.css" />
         
         <!-- UiKit -->
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.6.10/dist/css/uikit.min.css" />
 		<script src="https://cdn.jsdelivr.net/npm/uikit@3.6.10/dist/js/uikit.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/uikit@3.6.10/dist/js/uikit-icons.min.js"></script>
-        
-        <!-- JQuery -->
-        <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 
-        <!-- Custom Stylesheets -->
+        <link rel="stylesheet" href="css/form.css" />
         <link rel="stylesheet" href="css/styles.css" />
-        <link rel="stylesheet" href="css/portal.css" />
-    </head>
-    
-	<body class="uk-height-1-1">
-		
+	</head>
+	<body>
+
         <div class="uk-padding-small gradient-bg uk-text-bold uk-text-large uk-text-center">
 			<a class="uk-link-reset" href="portal.php?wid=<?php echo $wid;?>">JobDocs <span class="uk-text-normal">Mobile</span></a>
 		</div>
 
-        <div class="uk-container uk-container-xlarge uk-margin-top">
+        <div class="uk-padding">
+            <div class="section scrollspy" id="non-linear">
+                <div class="card-content">
+                    <form action="">
+                        <ul class="stepper">
 
-            <div uk-grid>
+                        <?php
 
-                <!-- Form Content Cell -->
-                <div class="uk-width-1-3@m">
+                        $i = 0;
+                        foreach ($formStructure["sections"] as $sectionTitle => $section) {
 
-                    <div class="uk-card uk-card-default uk-card-body">
-                        <table class="uk-table uk-table-divider uk-margin-remove">
-                            <thead>
-                                <tr>
-                                    <th>Section</th>
-                                    <th class="uk-text-right">Progress</th>
-                                </tr>
-                            </thead>
-                            <tbody class="uk-text-small">
+                            echo $i==0 ? '<li class="step active">' : '<li class="step">';
+                            echo '  
+                                <div data-step-label="'.$section['description'].'" class="step-title waves-effect waves-dark">'.$sectionTitle.'</div>
+                                <div class="step-content">
+                            ';
+
+                            foreach ($section['fields'] as $label => $field) {
+
+                                $formattedLabel = isset($field['label']) ? $field['label'] : ucwords(str_replace("_", " ", $label));
+                                $max_length = isset($field['max_length']) ? 'maxlength="'.$field['max_length'].'"' : "";
+
+                                echo '
+                                <div class="input-field col s12">';
+
+                                switch ($field['type']) {
+                                    case "string":
+                                        echo '<input name="'.$label.'" type="text" class="validate" '.$max_length.' required>';
+                                        echo '<label for="'.$label.'">'.$formattedLabel.'</label>';
+                                    break;
+
+                                    case "number":
+                                        echo '<input name="'.$label.'" type="text" class="validate" '.$max_length.' required>';
+                                        echo '<label for="'.$label.'">'.$formattedLabel.'</label>';
+                                    break;
+
+                                    case "select":
+                                        $multiple = isset($field['multiple']) && $field['multiple'] ? "multiple" : "";
+                                        echo '<select '.$multiple.' required>';
+                                        echo '<option value="" disabled selected>'.$formattedLabel.'</option>';
+                                        foreach ($field['enum'] as $option) {
+                                            echo '<option value="'.$option.'">'.$option.'</option>';
+                                        }
+                                        echo '</select>';
+                                    break;
+
+                                    case "signature":
+                                        echo '<div>
+                                                <p class="uk-margin-small-bottom uk-text-muted mini-label">'.$formattedLabel.'</p>
+                                                <canvas id="'.$label.'" class="signature-pad"></canvas>
+                                                <div>
+                                                
+                                                <button id="'.$label.'_clear" type="button" class="uk-button uk-button-default uk-button-small uk-margin-small-top">Clear</button>
+                                                </div>
+                                            </div>';
+                                    break;
+
+                                    case "date":
+                                        echo '<p class="uk-margin-remove uk-text-muted mini-label">'.$formattedLabel.'</p>';
+                                        echo '<input name="'.$label.'" type="date" class="datepicker" required>';
+                                    break;
+
+                                    case "time":
+                                        echo '<p class="uk-margin-remove uk-text-muted mini-label">'.$formattedLabel.'</p>';
+                                        echo '<input name="'.$label.'" type="time" class="datepicker" required>';
+                                    break;
+                                }
+
+                                echo '</div>';
+
+                                $i++;
                                 
-                                    <tr>
-                                        <td class="uk-table-link secondary-color"><a class="uk-link-reset" href="#">Table Data</a></td>
-                                        <td class="uk-text-right uk-text-danger">6/10</td>
-                                    </tr>
-                                
-                                <tr>
-                                    <td class="uk-table-link secondary-color"><a class="uk-link-reset" href="#">Table Data</a></td>
-                                    <td class="uk-text-right uk-text-warning">5/10</td>
-                                </tr>
-                                <tr>
-                                    <td class="uk-table-link secondary-color"><a class="uk-link-reset" href="#">Table Data</a></td>
-                                    <td class="uk-text-right uk-text-success">0/10</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                            }
+                            
 
-                <!-- Form Body Cell -->
-                <div class="uk-width-expand@m">
-                    <div class="uk-card uk-card-default uk-card-body">
-                        <h2 class="uk-text-bold">WSSC Septage Manifest</h2>
-
-                        <div class="form-group">
-                            <h1 class="uk-heading-bullet uk-text-lead secondary-color">Basic Information</h1>
-                            <div class="uk-margin">
-                                <input class="uk-input" type="text" placeholder="Input">
+                            echo '
+                            <div class="step-actions">
+                                <button class="uk-button secondary-btn uk-margin-small-right next-step">CONTINUE</button>
+                                <button class="uk-button previous-step">BACK</button>
                             </div>
+                                </div>
+                            </li>
+                            ';
+                        }
+                        
+                        ?>
 
-                            <div class="uk-margin">
-                                <select class="uk-select">
-                                    <option>Option 01</option>
-                                    <option>Option 02</option>
-                                </select>
+                        <li class="step">
+                            <div class="step-title waves-effect waves-dark">Verify & Submit</div>
+                            <div class="step-content">
+                                Finish!
+                                <div class="step-actions">
+                                    <button class="uk-button secondary-btn next-step" type="submit">SUBMIT</button>
+                                </div>
                             </div>
-
-                            <div class="uk-margin">
-                                <textarea class="uk-textarea" rows="5" placeholder="Textarea"></textarea>
-                            </div>
-
-                        </div>
-
-                    </div>
-
+                        </li>
+                            
+                        </ul>
+                    </form>
                 </div>
             </div>
         </div>
         
-        
+        <script>
+        $(document).ready(function() {
+            $('select').material_select();
+        });
+        </script>
+        <script src="js/stepper.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
+
+        <script>
+
+var signature_pads = document.getElementsByClassName("signature-pad");
+var signaturePad;
+Array.prototype.forEach.call(signature_pads, function(el) {
+    signaturePad = new SignaturePad(el, {
+        backgroundColor: 'rgba(255, 255, 255, 0)',
+        penColor: 'rgb(0, 0, 0)'
+        });
+        var cancelButton = document.getElementById(el.id+'_clear');
+        cancelButton.addEventListener('click', function (event) {
+            signaturePad.clear();
+        });
+
+});
+
+
+
+
+        </script>
 	</body>
 </html>

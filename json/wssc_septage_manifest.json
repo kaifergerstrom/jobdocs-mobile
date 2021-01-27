@@ -1,0 +1,112 @@
+{
+    "title":"WSSC Septage Manifest",
+    "sections":{
+       "Waste Hauler Information":{
+          "description":"",
+          "fields":{
+             "company_name":{
+                "type":"string"
+             },
+             "phone_number":{
+                "type":"string"
+             },
+             "WSSC_permit_number":{
+                "max_length":6,
+                "type":"number"
+             },
+             "vehicle_license_number":{
+                "max_length":6,
+                "type":"number"
+             },
+             "disposal_date":{
+                "type":"date"
+             },
+             "disposal_time":{
+                "type":"time"
+             },
+             "total_volume_of_discharge":{
+                "type":"number"
+             },
+             "manifest_num":{
+                "label":"Manifest Number(s)",
+                "hint":"If your Total Volume of Discharge contains more than (1) Generator of Wastewater, please reference Manifest #(s)",
+                "type":"number"
+             }
+          }
+       },
+       "Generator Of Wastewater":{
+          "description":"",
+          "fields":{
+             "name":{
+                "type":"string"
+             },
+             "address":{
+                "type":"string"
+             },
+             "city":{
+                "type":"string"
+             },
+             "state":{
+                "type":"string"
+             },
+             "zip":{
+                "type":"string"
+             },
+             "county":{
+                "type":"string"
+             },
+             "phone_num":{
+                "label":"Phone Number",
+                "type":"string"
+             },
+             "pump_out_amount":{
+                "type":"number"
+             },
+             "pump_out_date":{
+                "type":"date"
+             },
+             "time_collected":{
+                "type":"time"
+             },
+             "rep_name":{
+                "label":"Representative Name",
+                "type":"string"
+             },
+             "rep_signature":{
+                "label":"Signature",
+                "type":"signature"
+             },
+             "facility_type":{
+                "multiple":1,
+                "type":"select",
+                "enum":[
+                   "Residential",
+                   "Office/Commerical"
+                ]
+             },
+             "waste_type":{
+                "multiple":1,
+                "type":"select",
+                "enum":[
+                   "Septic Tanks",
+                   "Holding Tanks",
+                   "Portable Toilet",
+                   "Cleaning"
+                ]
+             }
+          }
+       },
+       "Certification":{
+          "description":"",
+          "fields":{
+             "driver_contractor_name":{
+                "label":"Driver/Contractor Name",
+                "type":"string"
+             },
+             "signature":{
+                "type":"signature"
+             }
+          }
+       }
+    }
+ }

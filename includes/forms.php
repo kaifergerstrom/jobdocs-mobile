@@ -1,21 +1,36 @@
+<?php
+require_once 'vendor/autoload.php';  // Autoloader for classes and libraries
 
-<h1 class="uk-heading-bullet uk-text-lead uk-text-bold uk-margin-medium-top">Required Work Order Forms <span class="uk-badge secondary-bg uk-text-bold">5</span></h1>
+use Classes\DB;
 
-<ul class="uk-subnav" uk-margin>
-    <li><a href="#">Add Form</a></li>
-    <li><a href="#">Remove Form</a></li>
-</ul>
+$forms = DB::query("SELECT formID, completed FROM wo_forms WHERE wid=:wid",array(":wid"=>$wid));
 
+?>
 <div>   
+    <h1 class="uk-heading-bullet uk-text-lead uk-text-bold uk-margin-medium-top">Required Work Order Forms <span class="uk-badge secondary-bg uk-text-bold">5</span></h1>
 
-<div>
-        <a class="uk-link-heading secondary-color uk-text-lead uk-margin-remove" href="form.php?wid=<?php echo $wid; ?>&fid=2345234">WSSC Septage Manifest <span class="uk-badge secondary-bg uk-float-right uk-text-bold">In Progress</span></a>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-</div>
-<hr>
+    <ul class="uk-subnav" uk-margin>
+        <li><a href="#">Add Form</a></li>
+        <li><a href="#">Remove Form</a></li>
+    </ul>
 
-<div>
-        <a class="uk-link-heading secondary-color uk-text-lead uk-margin-remove" href="form.php?wid=<?php echo $wid; ?>&fid=2345234">WSSC Septage Manifest <span class="uk-badge uk-float-right secondary-bg uk-text-bold success-bg">Completed</span></a>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+    <?php
+    foreach ($forms as $form) {
+
+        $form_info = DB::query("SELECT formTitle, formDesc FROM forms WHERE formID=:formID", array("formID"=>$form['formID']))[0];
+        $complete_text = $form['completed'] == 0 ? "In Progress" : "Completed";
+        $complete_style = $form['completed'] == 0 ? "secondary-bg" : "success-bg";
+        $complete_text_style = $form['completed'] == 0 ? "secondary-color" : "disable-link uk-text-muted";
+
+        echo '
+        <div>
+            <a class="uk-link-heading '.$complete_text_style.' uk-text-lead uk-margin-remove" href="form.php?wid='.$wid.'&fid='.$form['formID'].'">'.$form_info['formTitle'].' <span class="uk-badge '.$complete_style.' uk-float-right uk-text-bold">'.$complete_text.'</span></a>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        </div>
+        <hr>
+        ';
+    }
+
+    ?>
 </div>
-<hr>
+
