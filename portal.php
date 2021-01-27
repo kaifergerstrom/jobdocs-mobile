@@ -18,7 +18,6 @@ function getWorkOrder($id) {
 
 $address_full = $wo['StreetAddress']." ".$wo['City'].", ".$wo['State']." ".$wo['Zip'];
 
-
 ?>
 
 <!DOCTYPE html>
@@ -43,6 +42,11 @@ $address_full = $wo['StreetAddress']." ".$wo['City'].", ".$wo['State']." ".$wo['
         <!-- Custom Stylesheets -->
         <link rel="stylesheet" href="css/styles.css" />
         <link rel="stylesheet" href="css/portal.css" />
+
+        <!-- DropZone.js -->
+        <link rel="stylesheet" href="js/dropzone/dist/dropzone.css"/>
+        <script src="js/dropzone/dist/dropzone.js"></script>
+
     </head>
     
 	<body class="uk-height-1-1">
@@ -66,6 +70,34 @@ $address_full = $wo['StreetAddress']." ".$wo['City'].", ".$wo['State']." ".$wo['
             <!-- Work Order Details Tab -->
 			<li>
 				<div id='workorder-map'></div>
+
+                <div class="uk-grid-divider uk-child-width-1-4@m uk-grid-small uk-grid-match uk-padding uk-text-center" uk-grid>
+                    <div>
+                        <div>
+                            <h3 class="uk-card-title secondary-color uk-margin-small-bottom">Work Requested</h3>
+                            <p class="uk-margin-remove-top uk-text-italic"><?php echo $wo['WorkRequested']; ?></p>
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <h3 class="uk-card-title secondary-color uk-margin-small-bottom">Site Name</h3>
+                            <p class="uk-margin-remove-top uk-text-italic"><?php echo $wo['SiteName']; ?></p>
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <h3 class="uk-card-title secondary-color uk-margin-small-bottom">Work Order Status</h3>
+                            <p class="uk-margin-remove-top uk-text-italic"><?php echo $wo['WOStatus']; ?></p>
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <h3 class="uk-card-title secondary-color uk-margin-small-bottom">Work Code</h3>
+                            <p class="uk-margin-remove-top uk-text-italic"><?php echo $wo['WorkCode']; ?></p>
+                        </div>
+                    </div>
+                </div>
+
             </li>
 
             <!-- Form Requirements Tab -->
@@ -77,6 +109,22 @@ $address_full = $wo['StreetAddress']." ".$wo['City'].", ".$wo['State']." ".$wo['
 
             <!-- Photo/File Upload Tab -->
 			<li>
+
+                <div class="uk-container uk-container-large">
+                    <h1 class="uk-heading-bullet uk-text-lead uk-text-bold uk-margin-medium-top">File Upload</h1>
+                    <p class="uk-text-meta">Attach all work order related content (images & videos)</p>
+                     
+                    <form action="scripts/upload.php" class="dropzone" id="workorder-upload">
+                        <div class="dz-message" data-dz-message>
+                            <span class="uk-margin-small-right uk-text-large uk-display-block uk-margin-small-bottom" uk-icon="icon: upload; ratio: 2"></span>
+                            <p class="uk-margin-small-top uk-margin-small-bottom">Drag files to upload</p>
+                            <p class="uk-margin-remove uk-text-meta">Or, <span class="secondary-color">click here</span> to select a file</p>
+                        </div>
+                    
+                    </form>
+
+                </div>
+
             </li>
             
 		</ul>
