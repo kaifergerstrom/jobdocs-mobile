@@ -1,8 +1,4 @@
-html,
-body {
-  font-family: 'Roboto', sans-serif;
-  color: rgba(0, 0, 0, 0.87);
-}
+
 
 .secondary-btn {
     background-color: #e94057;
@@ -16,8 +12,6 @@ body {
 
 .signature-pad {
     border: 1px solid #9e9e9e;
-    width: 400px;
-    height: 150px;
 }
 
 .input-field.col label {

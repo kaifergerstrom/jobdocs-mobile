@@ -1,10 +1,20 @@
 <?php
+require_once 'vendor/autoload.php';  // Autoloader for classes and libraries
+
+use Classes\DB;
+
+$wid = $_GET['wid'];
+$fid = $_GET['fid'];
 
 
-$formFile = file_get_contents("json/wssc_septage_manifest.json");
 
+
+$date = date("D M d, Y G:i A", time());
+
+$form_info = DB::query("SELECT formTitle, formDesc, formJSON FROM forms WHERE formID=:formID", array(":formID"=>$fid))[0];
+
+$formFile = file_get_contents("json/".$form_info['formJSON']);
 $formStructure = json_decode($formFile, true);
-
 ?>
 
 <!DOCTYPE html>
@@ -33,6 +43,7 @@ $formStructure = json_decode($formFile, true);
 		<script src="https://cdn.jsdelivr.net/npm/uikit@3.6.10/dist/js/uikit.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/uikit@3.6.10/dist/js/uikit-icons.min.js"></script>
 
+        <!-- Custom CSS -->
         <link rel="stylesheet" href="css/form.css" />
         <link rel="stylesheet" href="css/styles.css" />
 	</head>
@@ -40,12 +51,18 @@ $formStructure = json_decode($formFile, true);
 
         <div class="uk-padding-small gradient-bg uk-text-bold uk-text-large uk-text-center">
 			<a class="uk-link-reset" href="portal.php?wid=<?php echo $wid;?>">JobDocs <span class="uk-text-normal">Mobile</span></a>
-		</div>
+</div>
 
         <div class="uk-padding">
+
+        <h1 class=" uk-text-large uk-text-bold uk-margin-remove-bottom"><?php echo $form_info['formTitle'];?></h1>
+        <p class="uk-margin-small-top uk-margin-small-bottom uk-text-meta"><?php echo $form_info['formDesc']; ?></p>
+
+        <hr>
+
             <div class="section scrollspy" id="non-linear">
                 <div class="card-content">
-                    <form action="">
+                    <form action="" type="POST">
                         <ul class="stepper">
 
                         <?php
@@ -91,7 +108,7 @@ $formStructure = json_decode($formFile, true);
                                     case "signature":
                                         echo '<div>
                                                 <p class="uk-margin-small-bottom uk-text-muted mini-label">'.$formattedLabel.'</p>
-                                                <canvas id="'.$label.'" class="signature-pad"></canvas>
+                                                <canvas id="'.$label.'" class="signature-pad" width="400" height="150"></canvas>
                                                 <div>
                                                 
                                                 <button id="'.$label.'_clear" type="button" class="uk-button uk-button-default uk-button-small uk-margin-small-top">Clear</button>
@@ -102,6 +119,11 @@ $formStructure = json_decode($formFile, true);
                                     case "date":
                                         echo '<p class="uk-margin-remove uk-text-muted mini-label">'.$formattedLabel.'</p>';
                                         echo '<input name="'.$label.'" type="date" class="datepicker" required>';
+                                    break;
+
+                                    case "time":
+                                        echo '<p class="uk-margin-remove uk-text-muted mini-label">'.$formattedLabel.'</p>';
+                                        echo '<input name="'.$label.'" type="time" class="datepicker" required>';
                                     break;
 
                                     case "time":
@@ -132,7 +154,7 @@ $formStructure = json_decode($formFile, true);
                         <li class="step">
                             <div class="step-title waves-effect waves-dark">Verify & Submit</div>
                             <div class="step-content">
-                                Finish!
+                                <p class="uk-text-muted uk-margin-top uk-margin-remove-bottom">I confirm that all the information supplied in this form is valid and truthful.</p>
                                 <div class="step-actions">
                                     <button class="uk-button secondary-btn next-step" type="submit">SUBMIT</button>
                                 </div>
@@ -156,14 +178,13 @@ $formStructure = json_decode($formFile, true);
         <script>
 
 var signature_pads = document.getElementsByClassName("signature-pad");
-var signaturePad;
 Array.prototype.forEach.call(signature_pads, function(el) {
-    signaturePad = new SignaturePad(el, {
+    var signaturePad = new SignaturePad(el, {
         backgroundColor: 'rgba(255, 255, 255, 0)',
         penColor: 'rgb(0, 0, 0)'
         });
-        var cancelButton = document.getElementById(el.id+'_clear');
-        cancelButton.addEventListener('click', function (event) {
+        console.log(document.getElementById(el.id+'_clear'));
+        document.getElementById(el.id+'_clear').addEventListener('click', function (event) {
             signaturePad.clear();
         });
 

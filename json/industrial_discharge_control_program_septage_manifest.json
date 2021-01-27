@@ -1,5 +1,4 @@
 {
-    "title":"WSSC Septage Manifest",
     "sections":{
        "Waste Hauler Information":{
           "description":"",
@@ -50,7 +49,7 @@
                 "type":"string"
              },
              "zip":{
-                "type":"string"
+                "type":"number"
              },
              "county":{
                 "type":"string"

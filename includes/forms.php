@@ -17,7 +17,7 @@ $forms = DB::query("SELECT formID, completed FROM wo_forms WHERE wid=:wid",array
     <?php
     foreach ($forms as $form) {
 
-        $form_info = DB::query("SELECT formTitle, formDesc FROM forms WHERE formID=:formID", array("formID"=>$form['formID']))[0];
+        $form_info = DB::query("SELECT formTitle, formDesc FROM forms WHERE formID=:formID", array(":formID"=>$form['formID']))[0];
         $complete_text = $form['completed'] == 0 ? "In Progress" : "Completed";
         $complete_style = $form['completed'] == 0 ? "secondary-bg" : "success-bg";
         $complete_text_style = $form['completed'] == 0 ? "secondary-color" : "disable-link uk-text-muted";

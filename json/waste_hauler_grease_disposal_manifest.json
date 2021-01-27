@@ -1,0 +1,162 @@
+{
+    "sections":{
+       "Waste Hauler Information":{
+          "description":"",
+          "fields":{
+             "company_name":{
+                "type":"string"
+             },
+             "owner_name":{
+                "type":"string"
+             },
+             "vehicle_make_model":{
+                "label":"Vehicle Make & Model",
+                "type":"string"
+             },
+             "telephone_number":{
+                "type":"string"
+             },
+             "dc_water_permit_number":{
+                "type":"number"
+             },
+             "wssc_water_permit_number":{
+                "type":"number"
+             },
+             "vehicle_license_number":{
+                "type":"number",
+                "max_length":6
+             },
+             "driver_contractor_name":{
+                "type":"string",
+                "label":"Driver/Contractor Name"
+             },
+             "signature":{
+                "type":"signature"
+             },
+             "date_of_work":{
+                "type":"date"
+             }
+          }
+       },
+       "Waste Generator":{
+          "description":"",
+          "fields":{
+             "waste_generator_type":{
+                "multiple":0,
+                "type":"select",
+                "enum":[
+                   "Food Service Establishment (FSE)"
+                ]
+             },
+             "name":{
+                "type":"string"
+             },
+             "address":{
+                "type":"string"
+             },
+             "city":{
+                "type":"string"
+             },
+             "state":{
+                "type":"string"
+             },
+             "zip":{
+                "type":"number"
+             },
+             "county":{
+                "type":"string"
+             }
+          }
+       },
+       "FSE Wastes":{
+          "description":"Required Info For Any FSE In WSSC Or Blue Plains Service Area",
+          "fields":{
+             "company_contact_for_account":{
+                "type":"string"
+             },
+             "wssc_water_fog_permit_number":{
+                "type":"number",
+                "hint":"(If Applicable)"
+             },
+             "site_contact_for_cleaning":{
+                "type":"string"
+             },
+             "date_of_last_cleaning_pumpout":{
+                "label":"Date of Last Cleaning/Pumpout",
+                "type":"date"
+             },
+             "number_of_interceptors_at_this_site":{
+                "type":"number"
+             }
+          }
+       },
+       "Grease Abatement Device (gad)":{
+          "description":"for additional devices attach a seperate manifest for each",
+          "fields":{
+             "location_description":{
+                "type":"string"
+             },
+             "gad_description":{
+                "hint":"Check all that apply",
+                "multiple":1,
+                "type":"select",
+                "enum":[
+                   "Outside Unit",
+                   "Inside Unit",
+                   "1 Manhole Unit",
+                   "2 Manhole Unit",
+                   "3 Manhole Unit"
+                ]
+             },
+             "approximate_grease_layer_inches_top":{
+                "label":"Approximate Grease Layer Inche (Top)",
+                "type":"number"
+             },
+             "approximate_grease_layer_inches_bottom":{
+                "label":"Approximate Grease Layer Inche (Bottom)",
+                "type":"number"
+             },
+             "approximate_volume_of_interceptor":{
+                "label":"Approximate Volume of Interceptor (gallons)",
+                "type":"number"
+             },
+             "time_began":{
+                "type":"time"
+             },
+             "time_completed":{
+                "type":"time"
+             },
+             "additional_work_notes":{
+                "label":"Additional Work/Notes (Condition, Operation, Full Cleaning)",
+                "type":"string"
+             },
+             "disposal_site":{
+                "type":"string"
+             },
+             "date_of_disposal":{
+                "type":"date"
+             },
+             "time_of_disposal":{
+                "type":"time"
+             },
+             "dc_water_security_authorization":{
+                "hint":"For Blue Plains Only",
+                "type":"date"
+             }
+          }
+       },
+       "Manifest Procesing":{
+          "description":"",
+          "fields":{
+             "gad_description":{
+                "multiple":0,
+                "type":"select",
+                "enum":[
+                   "Deposit yellow manifest copy in receptacle labeled grese manifest at the muddy branch waste disposal site at time of disposal",
+                   "Mail Yellow manifest copy to: Attn: Mr. Wayne Ludwig, Fog Unit Coordinator Regulatory Serivces Group, Washington Suburban Sanitary Commision, 14504 Sweitzer Lane, Laurel, MD 20707"
+                ]
+             }
+          }
+       }
+    }
+ }
