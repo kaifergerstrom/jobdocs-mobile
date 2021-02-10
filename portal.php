@@ -114,14 +114,59 @@ $address_full = $wo['StreetAddress']." ".$wo['City'].", ".$wo['State']." ".$wo['
                     <h1 class="uk-heading-bullet uk-text-lead uk-text-bold uk-margin-medium-top">File Upload</h1>
                     <p class="uk-text-meta">Attach all work order related content (images & videos)</p>
                      
+
+                    <?php
+                        // Load uploaded images
+                        $result = [];
+                        if ($uploads = DB::query("SELECT path FROM uploads WHERE wid=:wid", array(":wid"=>$wid))) {
+                            $uploads_path = "../jobdocs/uploads/".$wid;
+                            foreach ($uploads as $upload) {
+                                $obj['name'] = $upload['path'];
+                                $obj['size'] = filesize($uploads_path."/".$upload['path']);
+                                $result[] = $obj;
+                            }       
+                        }
+                    ?>
+
                     <form action="scripts/upload.php" class="dropzone" id="workorder-upload">
                         <div class="dz-message" data-dz-message>
                             <span class="uk-margin-small-right uk-text-large uk-display-block uk-margin-small-bottom" uk-icon="icon: upload; ratio: 2"></span>
                             <p class="uk-margin-small-top uk-margin-small-bottom">Drag files to upload</p>
                             <p class="uk-margin-remove uk-text-meta">Or, <span class="secondary-color">click here</span> to select a file</p>
                         </div>
-                    
                     </form>
+
+                    <script>
+                    
+                    /* ---- Preload images ---- */
+                    var myDropzone = new Dropzone("#workorder-upload", { url: "scripts/upload.php", 
+                        // Send wid in post
+                        init: function() {
+                            this.on("sending", function(file, xhr, formData){
+                                    formData.append("id", "<?php echo $wid;?>");
+                            });
+                        }
+                    });
+            
+                    var files = JSON.parse(`<?php echo json_encode($result); ?>`);
+
+                    $.each(files, function(key,value){
+
+                        var ext = value.name.split('.').pop();
+                        var valid = ["gif", "jpeg", "jpg", "png", "webp"]
+
+                        var mockFile = { name: value.name, size: value.size };
+                        myDropzone.emit("addedfile", mockFile);
+
+                        if (valid.includes(ext)) {
+                            myDropzone.emit("thumbnail", mockFile, "../jobdocs/uploads/<?php echo $wid;?>/"+mockFile.name);
+                        }
+                        myDropzone.emit("processing", mockFile);
+                        
+                        myDropzone.emit("complete", mockFile);
+
+                    });
+                    </script>
 
                 </div>
 
