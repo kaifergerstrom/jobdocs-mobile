@@ -239,6 +239,7 @@ $.fn.nextStep = function(ignorefb) {
   active = this.find('.step.active');
   next = $(this.children('.step:visible')).index($(active)) + 2;
   feedback = $(active.find('.step-content').find('.step-actions').find('.next-step')).data("feedback");
+  console.log(form.isValid());
   if (form.isValid()) {
     if (feedback && ignorefb) {
       stepper.activateFeedback();

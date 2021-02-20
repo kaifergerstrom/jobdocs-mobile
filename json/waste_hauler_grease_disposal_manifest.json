@@ -148,8 +148,9 @@
        "Manifest Procesing":{
           "description":"",
           "fields":{
-             "gad_description":{
+             "manifest_gad_description":{
                 "multiple":0,
+				"label":"Gad Description",
                 "type":"select",
                 "enum":[
                    "Deposit yellow manifest copy in receptacle labeled grese manifest at the muddy branch waste disposal site at time of disposal",

@@ -1,0 +1,34 @@
+{
+    "sections":{
+       "Waste Generator":{
+          "description":"",
+          "fields":{
+             "waste_generator_type":{
+                "multiple":0,
+                "type":"select",
+                "enum":[
+                   "Food Service Establishment (FSE)"
+                ]
+             },
+             "name":{
+                "type":"string"
+             },
+			 "gad_description":{
+                "hint":"Check all that apply",
+                "multiple":1,
+                "type":"select",
+                "enum":[
+                   "Outside Unit",
+                   "Inside Unit",
+                   "1 Manhole Unit",
+                   "2 Manhole Unit",
+                   "3 Manhole Unit"
+                ]
+             },
+			 "time_began":{
+                "type":"time"
+             }
+          }
+       }
+    }
+ }

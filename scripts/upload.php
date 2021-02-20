@@ -26,7 +26,7 @@ if (!empty($_FILES))
         DB::query('INSERT INTO uploads VALUES(\'\', :wid, :path, :description, :type, :date)', array(
             ":wid" => $wid,
             ":path" => $filename,
-            ":description" => "Hello World!",
+            ":description" => "Detailed Work Site Image",
             ":type" => "Image",
             ":date" => date('Y-m-d H:i:s')
         ));
