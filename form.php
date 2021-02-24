@@ -6,6 +6,7 @@ use Classes\DB;
 // Fetch work order ID and form ID from url
 $wid = $_GET['wid'];
 $fid = $_GET['fid'];
+$responseID = $_GET['id'];
 
 // Fetch form info from form ID
 $form_info = DB::query("SELECT formTitle, formDesc, formJSON FROM forms WHERE formID=:formID", array(":formID"=>$fid))[0];
@@ -13,6 +14,14 @@ $form_info = DB::query("SELECT formTitle, formDesc, formJSON FROM forms WHERE fo
 // Extract JSON form template
 $formFile = file_get_contents("json/".$form_info['formJSON']);
 $formStructure = json_decode($formFile, true);
+
+$responseData = array();
+if (isset($_GET['load']) && $_GET['load'] == 1) {
+	if ($file = DB::query("SELECT file FROM form_response WHERE response_id=:id", array(":id"=>$responseID))) {
+		$responseData  = json_decode(file_get_contents("json/responses/".$file[0]['file']), true);
+	}
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -54,7 +63,7 @@ $formStructure = json_decode($formFile, true);
 		<div class="uk-padding">
 
 			<!-- Form title and description -->
-			<h1 class=" uk-text-large uk-text-bold uk-margin-remove-bottom"><?php echo $form_info['formTitle'];?></h1>
+			<h1 class=" uk-text-large uk-text-bold uk-margin-remove-bottom"><?php echo $form_info['formTitle']; if (isset($_GET['load']) && $_GET['load'] == 1) echo " <span class='uk-text-warning'>(Editing)</span>";?></h1>
 			<p class="uk-margin-small-top uk-margin-small-bottom uk-text-meta"><?php echo $form_info['formDesc']; ?></p>
 			<hr>
 
@@ -78,6 +87,7 @@ $formStructure = json_decode($formFile, true);
 
 									$formattedLabel = isset($field['label']) ? $field['label'] : ucwords(str_replace("_", " ", $label));
 									$max_length = isset($field['max_length']) ? 'maxlength="'.$field['max_length'].'"' : "";
+									$load_value = isset($_GET['load']) && $_GET['load'] && isset($responseData[$label]) && !is_array($responseData[$label]) == 1 ? 'value="'.$responseData[$label].'" required' : "required";
 
 									echo '<div class="input-field col s12">';
 									
@@ -85,21 +95,38 @@ $formStructure = json_decode($formFile, true);
 									switch ($field['type']) {
 
 										case "string":
-											echo '<input name="'.$label.'" type="text" class="form-field validate" '.$max_length.' required>';
+											echo '<input name="'.$label.'" type="text" class="form-field validate" '.$max_length.' '.$load_value.'>';
 											echo '<label for="'.$label.'">'.$formattedLabel.'</label>';
 										break;
 
 										case "number":
-											echo '<input name="'.$label.'" type="text" class="form-field validate" '.$max_length.' required>';
+											echo '<input name="'.$label.'" type="text" class="form-field validate" '.$max_length.' '.$load_value.'>';
 											echo '<label for="'.$label.'">'.$formattedLabel.'</label>';
 										break;
 
 										case "select":
+
 											$multiple = isset($field['multiple']) && $field['multiple'] ? "multiple" : "";
+
 											echo '<select '.$multiple.' name="'.$label.'" class="form-select" required="" aria-required="true">';
-											echo '<option value="" disabled selected>'.$formattedLabel.'</option>';
+											echo '<option value="" disabled>'.$formattedLabel.'</option>';
 											foreach ($field['enum'] as $option) {
-												echo '<option value="'.$option.'">'.$option.'</option>';
+
+												// Check if enum should be selected
+												$selected = "";
+												
+												if (is_array($responseData[$label])) {
+													if (in_array($option, $responseData[$label])) {
+														$selected = "selected";
+													}
+												} else {
+													if ($option==$responseData[$label]) {
+														$selected = "selected";
+													}
+												}
+												
+
+												echo '<option value="'.$option.'" '.$selected.'>'.$option.'</option>';
 											}
 											echo '</select>';
 										break;
@@ -117,12 +144,12 @@ $formStructure = json_decode($formFile, true);
 
 										case "date":
 											echo '<p class="uk-margin-remove uk-text-muted mini-label">'.$formattedLabel.'</p>';
-											echo '<input name="'.$label.'" type="date" class="form-field datepicker" required>';
+											echo '<input name="'.$label.'" type="date" class="form-field datepicker" '.$load_value.'>';
 										break;
 
 										case "time":
 											echo '<p class="uk-margin-remove uk-text-muted mini-label">'.$formattedLabel.'</p>';
-											echo '<input name="'.$label.'" type="time" class="form-field datepicker" required>';
+											echo '<input name="'.$label.'" type="time" class="form-field datepicker" '.$load_value.'>';
 										break;
 
 									}
@@ -238,6 +265,7 @@ $formStructure = json_decode($formFile, true);
 					if (valid) {
 						var wid = "<?php echo $wid;?>";
 						var formID = "<?php echo $fid;?>";
+						var responseID = "<?php echo $responseID; ?>";
 						// Save response
 						$.ajax({
 							url: "scripts/save_response.php",
@@ -245,13 +273,14 @@ $formStructure = json_decode($formFile, true);
 							data: {
 								formData: formData,
 								wid: wid,
-								formID: formID
+								formID: formID,
+								responseID: responseID
 							},
 							success: function (response, textStatus, jqXHR) {
 								console.log(response);
 								UIkit.notification("<span class='uk-text-bold'><?php echo $form_info['formTitle'];?></span> completed! Redirecting...", {status:'success', pos: 'top-right'});
 								setTimeout(function(){
-									window.location.href = 'portal.php?wid='+wid;
+									window.location.href = 'portal.php?wid='+wid+"&tab=1";
 								}, 2000);
 							},
 							error: function (jqXHR, textStatus, errorThrown) {

@@ -59,14 +59,14 @@ $address_full = $wo['StreetAddress']." ".$wo['City'].", ".$wo['State']." ".$wo['
 			<h1 class="uk-text-lead uk-margin-remove uk-text-bold">Work Order <span class="uk-text-normal secondary-color">#<?php echo $wid; ?></span></h1>
 			<div class="uk-margin-small-top"><span uk-icon="location"></span> <?php echo $address_full; ?></div>
 			<ul class="uk-child-width-expand" uk-switcher="connect: .info-tab; swiping: false;" uk-tab>
-				<li><a href="#">Details</a></li>
-				<li><a href="#">Forms</a></li>
-				<li><a href="#">Uploads</a></li>
-				<li><a href="#">Verify & Submit</a></li>
+				<li id="details-tab"><a href="#">Details</a></li>
+				<li id="forms-tab"><a href="#">Forms</a></li>
+				<li id="uploads-tab"><a href="#">Uploads</a></li>
+				<li id="submit-tab"><a href="#">Verify & Submit</a></li>
 			</ul>
 		</div>
 		
-		<ul class="uk-switcher info-tab uk-margin">
+		<ul id="mobile-switcher" class="uk-switcher info-tab uk-margin">
 
 			<!-- Work Order Details Tab -->
 			<li>
@@ -236,9 +236,35 @@ $address_full = $wo['StreetAddress']." ".$wo['City'].", ".$wo['State']." ".$wo['
 
 		}); 
 
+		var tab = <?php echo isset($_GET['tab']) ? $_GET['tab'] : "-1";?>;
+		if (tab != -1 && tab < 4) {
+			$("#details-tab").removeAttr('class', 'uk-active');
+			UIkit.switcher("#mobile-switcher").show(tab);
+			switch(tab) {
+				case 0:
+					$("#details-tab").attr('class', 'uk-active');
+					break;
+				case 1:
+					$("#forms-tab").attr('class', 'uk-active');
+					break;
+				case 2:
+					$("#uploads-tab").attr('class', 'uk-active');
+					break;
+				case 3:
+					$("#submit-tab").attr('class', 'uk-active');
+					break;
+				default:
+					$("#details-tab").attr('class', 'uk-active');
+
+			}
+			
+		}
+
 
 
 	});
+
+	
 		
 		</script>
 

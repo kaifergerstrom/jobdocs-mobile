@@ -11,6 +11,6 @@ if (DB::query("SELECT id FROM wo_requests WHERE wid=:wid", array(":wid"=>$wid)))
 } else {
 	DB::query('INSERT INTO wo_requests VALUES(\'\', :wid, 1, \'\')', array(":wid"=>$wid));
 }
-//header("Location: index.php");
+header("Location: index.php");
 
 ?>

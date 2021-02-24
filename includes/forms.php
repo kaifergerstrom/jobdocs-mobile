@@ -3,7 +3,7 @@ require_once 'vendor/autoload.php';  // Autoloader for classes and libraries
 
 use Classes\DB;
 
-$forms = DB::query("SELECT formID, completed FROM wo_forms WHERE wid=:wid",array(":wid"=>$wid));
+$forms = DB::query("SELECT id, formID, completed FROM wo_forms WHERE wid=:wid",array(":wid"=>$wid));
 
 ?>
 <div>   
@@ -24,7 +24,7 @@ $forms = DB::query("SELECT formID, completed FROM wo_forms WHERE wid=:wid",array
 
         echo '
         <div>
-            <a class="uk-link-heading '.$complete_text_style.' uk-text-lead uk-margin-remove" href="form.php?wid='.$wid.'&fid='.$form['formID'].'">'.$form_info['formTitle'].' <span class="uk-badge '.$complete_style.' uk-float-right uk-text-bold">'.$complete_text.'</span></a>
+            <a class="uk-link-heading '.$complete_text_style.' uk-text-lead uk-margin-remove" href="form.php?wid='.$wid.'&fid='.$form['formID'].'&id='.$form['id'].'">'.$form_info['formTitle'].' <span class="uk-badge '.$complete_style.' uk-float-right uk-text-bold">'.$complete_text.'</span></a>
             <p class="uk-text-meta uk-width-4-5">'.$form_info['formDesc'].'</p>
         </div>
         <hr>
