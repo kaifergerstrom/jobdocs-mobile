@@ -4,18 +4,30 @@
           "description":"",
           "fields":{
              "company_name":{
-                "type":"string"
+                "type":"string",
+				"prefill": {
+					"value": "Magnolia Plumbing"
+				}
              },
              "phone_number":{
-                "type":"string"
+                "type":"string",
+				"prefill": {
+					"column": "OriginalCaller"
+				}
              },
              "WSSC_permit_number":{
                 "max_length":6,
-                "type":"number"
+                "type":"number",
+				"prefill": {
+					"value": "/WID/"
+				}
              },
              "vehicle_license_number":{
                 "max_length":6,
-                "type":"number"
+                "type":"number",
+				"prefill": {
+					"column": "SiteID"
+				}
              },
              "disposal_date":{
                 "type":"date"
@@ -29,7 +41,10 @@
              "manifest_num":{
                 "label":"Manifest Number(s)",
                 "hint":"If your Total Volume of Discharge contains more than (1) Generator of Wastewater, please reference Manifest #(s)",
-                "type":"number"
+                "type":"number",
+				"prefill": {
+					"value": "/WID/"
+				}
              }
           }
        },
@@ -40,16 +55,28 @@
                 "type":"string"
              },
              "address":{
-                "type":"string"
+                "type":"string",
+				"prefill": {
+					"column": "StreetAddress"
+				}
              },
              "city":{
-                "type":"string"
+                "type":"string",
+				"prefill": {
+					"column": "City"
+				}
              },
              "state":{
-                "type":"string"
+                "type":"string",
+				"prefill": {
+					"column": "State"
+				}
              },
              "zip":{
-                "type":"number"
+                "type":"number",
+				"prefill": {
+					"column": "Zip"
+				}
              },
              "county":{
                 "type":"string"

@@ -11,7 +11,10 @@
                 ]
              },
              "name":{
-                "type":"string"
+                "type":"string",
+				"prefill": {
+					"value": "John Doe"
+				}
              },
 			 "gad_description":{
                 "hint":"Check all that apply",

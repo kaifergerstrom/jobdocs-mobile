@@ -87,20 +87,47 @@ if (isset($_GET['load']) && $_GET['load'] == 1) {
 
 									$formattedLabel = isset($field['label']) ? $field['label'] : ucwords(str_replace("_", " ", $label));
 									$max_length = isset($field['max_length']) ? 'maxlength="'.$field['max_length'].'"' : "";
-									$load_value = isset($_GET['load']) && $_GET['load'] && isset($responseData[$label]) && !is_array($responseData[$label]) == 1 ? 'value="'.$responseData[$label].'" required' : "required";
+
+									// Determine properties of text inputs to preload
+									$load_value = "";
+									$config = array('value'=>"", 'disabled'=>0, 'style'=>"");  // Array to store input settings
+
+									if (isset($_GET['load']) && $_GET['load'] == 1 && isset($responseData[$label]) && !is_array($responseData[$label]) ) {  // If there is a response being loaded, that takes priority
+										$config['value'] = $responseData[$label];
+										$config['disabled'] = 1;
+
+									} else if (isset($field['prefill'])) {  // Secondly, check for prefill values
+										// Extract values from JSON template
+										$prefill_type = array_keys($field['prefill'])[0];
+										$prefill_value = $field['prefill'][$prefill_type];
+
+										switch ($prefill_type) {
+											case "value":  // Direct value to fill in
+												$config['value'] = $prefill_value == "/WID/" ? $wid : $prefill_value;
+												$config['disabled'] = 1;
+											break;
+
+											case "column": // Column from workorders table
+												$query = "SELECT ".$prefill_value." FROM workorders WHERE WorkOrderId=:wid";
+												$config['value'] = DB::query($query, array(":wid"=>$wid))[0][$prefill_value];
+												$config['disabled'] = 1;
+											break;
+										}
+									}
+									$disabled = $config['disabled'] == 1 ? "disabled" : "";  // Check if input should be disabled
+									$config_string = 'value="'.$config['value'].'" style="'.$config['style'].'" '.$disabled;  // Prepare configuration string
 
 									echo '<div class="input-field col s12">';
-									
 									// Switch case to render form input based on type
 									switch ($field['type']) {
 
 										case "string":
-											echo '<input name="'.$label.'" type="text" class="form-field validate" '.$max_length.' '.$load_value.'>';
+											echo '<input name="'.$label.'" type="text" class="form-field validate" '.$max_length.' '.$config_string.'>';
 											echo '<label for="'.$label.'">'.$formattedLabel.'</label>';
 										break;
 
 										case "number":
-											echo '<input name="'.$label.'" type="text" class="form-field validate" '.$max_length.' '.$load_value.'>';
+											echo '<input name="'.$label.'" type="text" class="form-field validate" '.$max_length.' '.$config_string.'>';
 											echo '<label for="'.$label.'">'.$formattedLabel.'</label>';
 										break;
 
@@ -144,12 +171,12 @@ if (isset($_GET['load']) && $_GET['load'] == 1) {
 
 										case "date":
 											echo '<p class="uk-margin-remove uk-text-muted mini-label">'.$formattedLabel.'</p>';
-											echo '<input name="'.$label.'" type="date" class="form-field datepicker" '.$load_value.'>';
+											echo '<input name="'.$label.'" type="date" class="form-field datepicker" '.$config_string.'>';
 										break;
 
 										case "time":
 											echo '<p class="uk-margin-remove uk-text-muted mini-label">'.$formattedLabel.'</p>';
-											echo '<input name="'.$label.'" type="time" class="form-field datepicker" '.$load_value.'>';
+											echo '<input name="'.$label.'" type="time" class="form-field datepicker" '.$config_string.'>';
 										break;
 
 									}
