@@ -1,0 +1,5 @@
+# exclude everything
+json/responses/*
+# exception to the rule
+!json/responses/.gitkeep 
+!json/responses/.keep

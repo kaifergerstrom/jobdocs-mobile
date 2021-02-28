@@ -3,14 +3,13 @@ require_once 'vendor/autoload.php';  // Autoloader for classes and libraries
 
 use Classes\DB;
 
+date_default_timezone_set('US/Eastern');
+$date = date('Y-m-d H:i:s');
+
 $wid = $_GET['wid'];
 
+DB::query('INSERT INTO wo_requests VALUES(\'\', :wid, 1, \'\', :request_date)', array(":wid"=>$wid, ":request_date"=>$date));
 
-if (DB::query("SELECT id FROM wo_requests WHERE wid=:wid", array(":wid"=>$wid))) {
-	DB::query("UPDATE wo_requests SET status=1 WHERE wid=:wid", array(":wid"=>$wid));
-} else {
-	DB::query('INSERT INTO wo_requests VALUES(\'\', :wid, 1, \'\')', array(":wid"=>$wid));
-}
 header("Location: index.php");
 
 ?>
