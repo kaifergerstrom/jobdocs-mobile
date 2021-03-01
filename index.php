@@ -22,6 +22,10 @@ if (isset($_POST['wid-btn'])) {
 		<!-- Custom Stylesheets -->
 		<link rel="stylesheet" href="css/styles.css" />
 		<link rel="stylesheet" href="css/index.css" />
+
+		<!-- JQuery -->
+		<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/jquery.cookie@1.4.1/jquery.cookie.min.js"></script>
 	</head>
 
 	<body class="uk-height-1-1">
@@ -71,35 +75,9 @@ if (isset($_POST['wid-btn'])) {
 	
 	<script>
 
-
-	function getCookie(name) {
-		var dc = document.cookie;
-		var prefix = name + "=";
-		var begin = dc.indexOf("; " + prefix);
-		if (begin == -1) {
-			begin = dc.indexOf(prefix);
-			if (begin != 0) return null;
-		}
-		else
-		{
-			begin += 2;
-			var end = document.cookie.indexOf(";", begin);
-			if (end == -1) {
-			end = dc.length;
-			}
-		}
-		// because unescape has been deprecated, replaced with decodeURI
-		//return unescape(dc.substring(begin + prefix.length, end));
-		return decodeURI(dc.substring(begin + prefix.length, end));
-	} 
-
-	function eraseCookie(name) {   
-		document.cookie = name+'=; Max-Age=-99999999;';  
-	}
-	
-	if (getCookie("wo_submit")) {
+	if ($.cookie("wo_submit")) {
 		UIkit.modal("#complete-modal").show();
-		eraseCookie("wo_submit");
+		$.removeCookie('wo_submit', { path: '/' });
 	}
 	
 	</script>

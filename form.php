@@ -69,7 +69,7 @@ if (isset($_GET['load']) && $_GET['load'] == 1) {
 		<div class="uk-padding">
 
 			<!-- Form title and description -->
-			<h1 class=" uk-text-large uk-text-bold uk-margin-remove-bottom"><?php echo $form_info['formTitle']; if (isset($_GET['load']) && $_GET['load'] == 1) echo " <span class='uk-text-warning'>(Editing)</span>";?></h1>
+			<h1 class=" uk-text-large uk-text-bold uk-margin-remove-bottom"><?php echo $form_info['formTitle']; if (isset($_GET['load']) && $_GET['load'] == 1) echo " <span class='uk-text-warning'>(Viewing)</span>";?></h1>
 			<p class="uk-margin-small-top uk-margin-small-bottom uk-text-meta"><?php echo $form_info['formDesc']; ?></p>
 			<hr>
 

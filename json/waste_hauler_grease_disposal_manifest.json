@@ -4,7 +4,10 @@
           "description":"",
           "fields":{
              "company_name":{
-                "type":"string"
+                "type":"string",
+				"prefill": {
+					"value": "Magnolia Plumbing"
+				}
              },
              "owner_name":{
                 "type":"string"
@@ -14,13 +17,22 @@
                 "type":"string"
              },
              "telephone_number":{
-                "type":"string"
+                "type":"string",
+				"prefill": {
+					"column": "OriginalCaller"
+				}
              },
              "dc_water_permit_number":{
-                "type":"number"
+                "type":"number",
+				"prefill": {
+					"column": "SiteID"
+				}
              },
              "wssc_water_permit_number":{
-                "type":"number"
+                "type":"number",
+				"prefill": {
+					"value": "/WID/"
+				}
              },
              "vehicle_license_number":{
                 "type":"number",
@@ -52,16 +64,28 @@
                 "type":"string"
              },
              "address":{
-                "type":"string"
+                "type":"string",
+				"prefill": {
+					"column": "StreetAddress"
+				}
              },
              "city":{
-                "type":"string"
+                "type":"string",
+				"prefill": {
+					"column": "City"
+				}
              },
              "state":{
-                "type":"string"
+                "type":"string",
+				"prefill": {
+					"column": "State"
+				}
              },
              "zip":{
-                "type":"number"
+                "type":"number",
+				"prefill": {
+					"column": "Zip"
+				}
              },
              "county":{
                 "type":"string"

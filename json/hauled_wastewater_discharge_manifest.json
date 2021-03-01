@@ -1,0 +1,72 @@
+{
+    "sections":{
+       "Hauler of Wastewater":{
+          "description":"",
+          "fields":{
+             "waste_hauler_company_name":{
+                "type":"string",
+				"prefill": {
+					"value": "Magnolia Plumbing"
+				}
+             },
+             "vehicle_tag_number":{
+				"max_length":6,
+                "type":"string"
+             },
+             "scavenger_permit_number":{
+                "max_length":6,
+                "type":"number"
+             },
+             "discharge_time":{
+                "type":"time"
+             }
+          }
+       },
+       "Wastewater Stream Identification":{
+          "description":"",
+          "fields":{
+			"source":{
+                "multiple":1,
+                "type":"select",
+                "enum":[
+                   "Residential",
+                   "Commerical",
+				   "Resturant",
+				   "Government",
+				   "Industrial"
+                ]
+             },
+			 "type":{
+                "multiple":1,
+                "type":"select",
+                "enum":[
+					"Septic",
+					"Holding Tank",
+					"Portable Toilet",
+					"Grease",
+					"Stormcepter"
+                ]
+             },
+			 "pumped_volume":{
+                "max_length":6,
+                "type":"number"
+             }
+          }
+       },
+       "Generator Of Wastewater":{
+          "description":"The undersigned being duly authorized does certify to the accuracy of the source and type of hauled wastewater identified above and subject to this manifest.",
+          "fields":{
+             "driver_contractor_name":{
+                "label":"Driver/Contractor Name",
+                "type":"string"
+             },
+             "signature":{
+                "type":"signature"
+             },
+			 "date":{
+                "type":"date"
+             }
+          }
+       }
+    }
+ }
