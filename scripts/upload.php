@@ -4,7 +4,7 @@ use Classes\DB;
 
 $wid = $_POST['id'];
 
-$uploadDir = '../../jobdocs/uploads/' . $wid;
+$uploadDir = '../../uploads/' . $wid;
 
 if (!file_exists($uploadDir))
 {

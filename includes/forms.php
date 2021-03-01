@@ -4,15 +4,11 @@ require_once 'vendor/autoload.php';  // Autoloader for classes and libraries
 use Classes\DB;
 
 $forms = DB::query("SELECT id, formID, completed FROM wo_forms WHERE wid=:wid",array(":wid"=>$wid));
+$completed_count = DB::query("SELECT id FROM wo_forms WHERE wid=:wid AND completed=1",array(":wid"=>$wid));
 
 ?>
 <div>   
-    <h1 class="uk-heading-bullet uk-text-lead uk-text-bold uk-margin-medium-top">Required Work Order Forms <span class="uk-badge secondary-bg uk-text-bold"><?php echo count($forms);?></span></h1>
-
-    <ul class="uk-subnav" uk-margin>
-        <li><a href="#">Add Form</a></li>
-        <li><a href="#">Remove Form</a></li>
-    </ul>
+    <h1 class="uk-heading-bullet uk-text-lead uk-text-bold uk-margin-medium-top">Required Work Order Forms <span class="uk-badge secondary-bg uk-text-bold"><?php echo count($forms)-count($completed_count);?></span></h1>
 
     <?php
     foreach ($forms as $form) {

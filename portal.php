@@ -104,7 +104,39 @@ $address_full = $wo['StreetAddress']." ".$wo['City'].", ".$wo['State']." ".$wo['
 			<!-- Form Requirements Tab -->
 			<li>
 				<div class="uk-container uk-container-large">
-					<?php include("includes/forms.php");?>
+				<?php
+
+				$forms = DB::query("SELECT id, formID, completed FROM wo_forms WHERE wid=:wid",array(":wid"=>$wid));
+				$completed_count = DB::query("SELECT id FROM wo_forms WHERE wid=:wid AND completed=1",array(":wid"=>$wid));
+				?>
+					
+				<div>   
+					<h1 class="uk-heading-bullet uk-text-lead uk-text-bold uk-margin-medium-top">Required Work Order Forms <span class="uk-badge secondary-bg uk-text-bold"><?php echo count($forms)-count($completed_count);?></span></h1>
+
+					<?php
+					
+					foreach ($forms as $form) {
+
+						$form_info = DB::query("SELECT formTitle, formDesc FROM forms WHERE formID=:formID", array(":formID"=>$form['formID']))[0];
+						$complete_text = $form['completed'] == 0 ? "Required" : "Completed";
+						$complete_style = $form['completed'] == 0 ? "secondary-bg" : "success-bg";
+						$complete_text_style = $form['completed'] == 0 ? "secondary-color" : "disable-link uk-text-muted";
+
+						echo '
+						<div>
+							<a onclick="redirectTo(`form.php?wid='.$wid.'&fid='.$form['formID'].'&id='.$form['id'].'`)" class="uk-link-heading '.$complete_text_style.' uk-text-lead uk-margin-remove">'.$form_info['formTitle'].' <span class="uk-badge '.$complete_style.' uk-float-right uk-text-bold">'.$complete_text.'</span></a>
+							<p class="uk-text-meta uk-width-4-5">'.$form_info['formDesc'].'</p>
+						</div>
+						<hr>
+						';
+
+						
+					}
+
+					?>
+				</div>
+
+
 				</div>
 			</li>
 
@@ -120,7 +152,7 @@ $address_full = $wo['StreetAddress']." ".$wo['City'].", ".$wo['State']." ".$wo['
 						// Load uploaded images
 						$result = [];
 						if ($uploads = DB::query("SELECT path FROM uploads WHERE wid=:wid", array(":wid"=>$wid))) {
-							$uploads_path = "../jobdocs/uploads/".$wid;
+							$uploads_path = "../uploads/".$wid;
 							foreach ($uploads as $upload) {
 								$obj['name'] = $upload['path'];
 								$obj['size'] = filesize($uploads_path."/".$upload['path']);
@@ -167,7 +199,7 @@ $address_full = $wo['StreetAddress']." ".$wo['City'].", ".$wo['State']." ".$wo['
 						myDropzone.emit("addedfile", mockFile);
 
 						if (valid.includes(ext)) {
-							myDropzone.emit("thumbnail", mockFile, "../jobdocs/uploads/<?php echo $wid;?>/"+mockFile.name);
+							myDropzone.emit("thumbnail", mockFile, "../uploads/<?php echo $wid;?>/"+mockFile.name);
 						}
 						myDropzone.emit("processing", mockFile);
 						
@@ -218,6 +250,10 @@ $address_full = $wo['StreetAddress']." ".$wo['City'].", ".$wo['State']." ".$wo['
 
 		<script>
 		
+		function redirectTo(url) {
+			window.location.replace(url);
+		}
+
 		$(document).ready(function() {
 
 		$("#submitWorkOrder").click(function(){
@@ -268,6 +304,7 @@ $address_full = $wo['StreetAddress']." ".$wo['City'].", ".$wo['State']." ".$wo['
 
 			}
 			
+			
 		}
 	
 
@@ -275,7 +312,7 @@ $address_full = $wo['StreetAddress']." ".$wo['City'].", ".$wo['State']." ".$wo['
 
 	});
 
-	
+	window.dispatchEvent(new Event('resize'));
 		
 		</script>
 
