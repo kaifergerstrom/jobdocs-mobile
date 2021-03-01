@@ -148,6 +148,13 @@ $address_full = $wo['StreetAddress']." ".$wo['City'].", ".$wo['State']." ".$wo['
 							});
 						}
 					});
+
+					myDropzone.on("addedfile", function(file) {
+						$("#file-upload-count").text($(".dz-preview").length);
+						$("#no-uploads").replaceWith('<span class="uk-margin-small-right" uk-icon="check"></span>');
+						$("#file-upload-td").removeClass('uk-text-danger');
+						$("#file-upload-td").addClass("uk-text-success");
+					});
 			
 					var files = JSON.parse(`<?php echo json_encode($result); ?>`);
 
@@ -187,14 +194,14 @@ $address_full = $wo['StreetAddress']." ".$wo['City'].", ".$wo['State']." ".$wo['
 							</tr>
 							<tr>
 								<td class="uk-text-italic">Uploads</td>
-								<td class="uk-text-bold <?php echo $upload_count == 0 ? 'uk-text-danger' : 'uk-text-success';  ?>"><?php echo $upload_count; ?> Files <?php echo $upload_count == 0 ? '<span class="uk-margin-small-right" uk-icon="close"></span>' : '<span class="uk-margin-small-right" uk-icon="check"></span>'; ?></td>
+								<td id="file-upload-td" class="uk-text-bold <?php echo $upload_count == 0 ? 'uk-text-danger' : 'uk-text-success';  ?>"><span id="file-upload-count"><?php echo $upload_count; ?></span> Files <?php echo $upload_count == 0 ? '<span class="uk-margin-small-right" uk-icon="close" id="no-uploads"></span>' : '<span class="uk-margin-small-right" uk-icon="check"></span>'; ?></td>
 							</tr>
 						</tbody>
 					</table>
 
 					<?php
 					$disabled = False; 
-					if ($completed = DB::query("SELECT status FROM wo_requests WHERE wid=:wid", array(":wid"=>$wid))) {
+					if ($completed = DB::query("SELECT status FROM wo_requests WHERE wid=:wid ORDER BY request_date DESC", array(":wid"=>$wid))) {
 						if ($completed[0]['status'] == 1 || $completed[0]['status'] == 3) {
 							$disabled = True;
 						}
@@ -236,6 +243,9 @@ $address_full = $wo['StreetAddress']." ".$wo['City'].", ".$wo['State']." ".$wo['
 
 		}); 
 
+		
+
+		
 		var tab = <?php echo isset($_GET['tab']) ? $_GET['tab'] : "-1";?>;
 		if (tab != -1 && tab < 4) {
 			$("#details-tab").removeAttr('class', 'uk-active');
@@ -259,6 +269,7 @@ $address_full = $wo['StreetAddress']." ".$wo['City'].", ".$wo['State']." ".$wo['
 			}
 			
 		}
+	
 
 
 

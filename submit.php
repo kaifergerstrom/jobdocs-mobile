@@ -10,6 +10,7 @@ $wid = $_GET['wid'];
 
 DB::query('INSERT INTO wo_requests VALUES(\'\', :wid, 1, \'\', :request_date)', array(":wid"=>$wid, ":request_date"=>$date));
 
+setcookie("wo_submit", "1", time() + (86400 * 30), "/jobdocs-mobile");
 header("Location: index.php");
 
 ?>

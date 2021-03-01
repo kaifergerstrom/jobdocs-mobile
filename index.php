@@ -27,9 +27,11 @@ if (isset($_POST['wid-btn'])) {
 	<body class="uk-height-1-1">
 		<nav class="uk-navbar uk-navbar-container uk-margin">
 			<div class="uk-navbar-left">
+			<!--
 				<a class="uk-navbar-toggle" href="#" uk-toggle="target: #menu-offcanvas">
 					<span uk-navbar-toggle-icon></span> <span class="uk-margin-small-left">Menu</span>
 				</a>
+				-->
 			</div>
 		</nav>
 		<div>
@@ -54,17 +56,54 @@ if (isset($_POST['wid-btn'])) {
 				<div id="stars3"></div>
 			</div>
 		</div>
-		<div id="menu-offcanvas" uk-offcanvas="mode: push; overlay: true">
-			<div class="uk-offcanvas-bar">
-		
-				<button class="uk-offcanvas-close" type="button" uk-close></button>
-		
-				<h3>Title</h3>
-		
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-		
-			</div>
-		</div>
 	</body>
+
+	<!-- This is the modal with the default close button -->
+	<div id="complete-modal" uk-modal>
+		<div class="uk-modal-dialog uk-modal-body uk-text-center" style="z-index: 99999999;">
+			<button class="uk-modal-close-default" type="button" uk-close></button>
+			<h2 class="uk-modal-title uk-text-bold">Submitted Work Order</h2>
+			<p class="uk-margin-remove-bottom uk-text-italic">All requirements are complete. Now sit back, and a relax...</p>
+			<img src="img/relax.jpg" style="height: 300px;">
+		</div>
+	</div>
+
+	
+	<script>
+
+
+	function getCookie(name) {
+		var dc = document.cookie;
+		var prefix = name + "=";
+		var begin = dc.indexOf("; " + prefix);
+		if (begin == -1) {
+			begin = dc.indexOf(prefix);
+			if (begin != 0) return null;
+		}
+		else
+		{
+			begin += 2;
+			var end = document.cookie.indexOf(";", begin);
+			if (end == -1) {
+			end = dc.length;
+			}
+		}
+		// because unescape has been deprecated, replaced with decodeURI
+		//return unescape(dc.substring(begin + prefix.length, end));
+		return decodeURI(dc.substring(begin + prefix.length, end));
+	} 
+
+	function eraseCookie(name) {   
+		document.cookie = name+'=; Max-Age=-99999999;';  
+	}
+	
+	if (getCookie("wo_submit")) {
+		UIkit.modal("#complete-modal").show();
+		eraseCookie("wo_submit");
+	}
+	
+	</script>
+
+
 
 </html>
